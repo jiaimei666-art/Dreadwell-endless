@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#07090b">
+  <meta name="description" content="Dreadwell is a mysterious touch, keyboard, and controller dungeon crawler.">
+  <title>Dreadwell // Dungeon Crawler</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="game-shell" class="mode-pick">
+    <canvas id="game-canvas" aria-label="Dreadwell dungeon arena"></canvas>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">+</span><span>DREADWELL</span></div>
+      <div class="floor-readout"><span>DESCENT</span><strong id="floor-value">01</strong></div>
+      <div class="room-readout"><span id="room-label">THE THRESHOLD</span><strong id="room-value">AWAITING</strong></div>
+    </header>
+
+    <section class="combat-hud" aria-label="Combat status">
+      <div class="stat-line"><span class="eyebrow">VITALITY</span><strong id="health-text">100 / 100</strong></div>
+      <div class="bar"><span id="health-bar" class="health-fill"></span></div>
+      <div class="stat-line lower"><span class="eyebrow">STAMINA</span><strong id="stamina-text">100</strong></div>
+      <div class="bar thin"><span id="stamina-bar" class="stamina-fill"></span></div>
+      <div class="ability-row"><span class="ability-key">SPC</span><span class="ability-meter"><i id="special-bar"></i></span><span id="special-text">READY</span></div>
+    </section>
+
+    <aside class="weapon-hud">
+      <span class="eyebrow">EQUIPPED</span>
+      <strong id="weapon-value">EMBER FANG</strong>
+      <span id="weapon-detail">3-shot spread // 26 DMG</span>
+      <span class="weapon-divider"></span>
+      <span class="eyebrow">FALLEN</span>
+      <strong id="kill-value">00</strong>
+      <span class="weapon-divider"></span>
+      <span class="eyebrow">CLASS</span>
+      <strong id="class-value">UNSELECTED</strong>
+      <span id="class-special">CHOOSE A PATH</span>
+    </aside>
+
+    <div id="combat-log" class="combat-log" aria-live="polite"></div>
+    <div id="pc-controls" class="pc-controls" aria-label="Control bindings"><kbd>WASD</kbd> MOVE <kbd>SPACE</kbd> ATTACK <kbd>Q</kbd> DASH <kbd>R</kbd> SPECIAL</div>
+
+    <section id="mobile-controls" class="mobile-controls" aria-label="Touch controls">
+      <div class="action-pad">
+        <button id="attack-btn" class="control-btn attack" aria-label="Attack"><span class="control-glyph">A</span><small>ATTACK</small></button>
+        <button id="dash-btn" class="control-btn dash" aria-label="Dash"><span class="control-glyph">D</span><small>DASH</small></button>
+        <button id="special-btn" class="control-btn special" aria-label="Special ability"><span class="control-glyph">S</span><small>SPECIAL</small></button>
+      </div>
+      <div id="joystick" class="joystick" aria-label="Movement joystick">
+        <div class="joystick-ring"><div id="joystick-knob" class="joystick-knob"></div></div>
+        <span>MOVE</span>
+      </div>
+    </section>
+
+    <section id="mode-screen" class="screen active">
+      <div class="screen-content mode-content">
+        <p class="eyebrow">ARCHIVE 07 // INPUT PROFILE</p>
+        <h2>How will you enter?</h2>
+        <p class="mode-subtitle">Choose your controls before the descent begins.</p>
+        <div class="mode-options">
+          <button class="mode-choice" data-mode="desktop"><span class="mode-icon">K</span><strong>DESKTOP</strong><small>Keyboard and mouse</small><b>WASD · SPACE · Q · R</b></button>
+          <button class="mode-choice" data-mode="controller"><span class="mode-icon">O</span><strong>CONTROLLER</strong><small>Gamepad ready</small><b>STICK · RT · B · Y</b></button>
+          <button class="mode-choice" data-mode="mobile"><span class="mode-icon">M</span><strong>MOBILE</strong><small>Touch controls</small><b>JOYSTICK · ACTIONS</b></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="start-screen" class="screen is-hidden">
+      <div class="screen-content intro-content">
+        <div class="sigil" aria-hidden="true"><span></span><i></i><b></b></div>
+        <p class="eyebrow">ARCHIVE 07 // LIVE BUILD</p>
+        <h1>DREADWELL</h1>
+        <p class="tagline">Something below has learned your name.</p>
+        <button id="start-btn" class="primary-btn"><span>BEGIN DESCENT</span><b>ENTER</b></button>
+        <p id="input-hint" class="input-hint">WASD / ARROWS MOVE &nbsp; · &nbsp; MOUSE / SPACE ATTACK &nbsp; · &nbsp; Q DASH &nbsp; · &nbsp; R SPECIAL</p>
+        <p class="controller-hint">Touch and controller inputs are active</p>
+      </div>
+    </section>
+
+    <section id="class-screen" class="screen is-hidden">
+      <div class="screen-content class-content">
+        <p class="eyebrow">ARCHIVE 07 // COMBAT DISCIPLINE</p>
+        <h2>Choose your class.</h2>
+        <p class="mode-subtitle">Every path carries a different kind of violence.</p>
+        <div class="class-options">
+          <button class="class-choice" data-class="berserker"><span class="class-mark">B</span><strong>BERSERKER</strong><small>Close-range aggression</small><b>FREESTYLE // R</b></button>
+          <button class="class-choice" data-class="ranger"><span class="class-mark">R</span><strong>RANGER</strong><small>Precision and distance</small><b>DEADEYE // R</b></button>
+          <button class="class-choice" data-class="arcanist"><span class="class-mark">A</span><strong>ARCANIST</strong><small>Room-clearing sorcery</small><b>RIFT NOVA // R</b></button>
+          <button class="class-choice" data-class="shade"><span class="class-mark">S</span><strong>SHADE</strong><small>Teleport and execution</small><b>BLINK CUT // R</b></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="reward-screen" class="screen is-hidden">
+      <div class="screen-content reward-content">
+        <p class="eyebrow">FLOOR CLEARED</p>
+        <h2>Choose what follows you down.</h2>
+        <div id="reward-options" class="reward-options"></div>
+      </div>
+    </section>
+
+    <section id="game-over-screen" class="screen is-hidden">
+      <div class="screen-content outro-content">
+        <p class="eyebrow">DESCENT INTERRUPTED</p>
+        <h2 id="game-over-title">THE WELL REMEMBERS.</h2>
+        <p id="game-over-detail">You reached floor 01.</p>
+        <button id="restart-btn" class="primary-btn"><span>RETURN TO THE THRESHOLD</span><b>R</b></button>
+      </div>
+    </section>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
